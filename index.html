@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuesto PRAMAC GA8000 - Generador 8kVA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #dc2626;
+            --accent-hover: #b91c1c;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --blue: #2563eb;
+            --blue-light: #dbeafe;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: var(--accent);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: var(--blue);
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+
+        .header-content { position: relative; z-index: 1; } .header { padding-left: 140px !important; } .logo-link { position: absolute; top: 25px; left: 30px; z-index: 10; } .header-logo { height: 70px; width: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); transition: transform 0.3s ease; } .header-logo:hover { transform: scale(1.05); }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-badge i { color: var(--accent); }
+
+        .header h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .header h1 span { color: var(--accent); }
+
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+            font-weight: 400;
+            max-width: 500px;
+        }
+
+        .model-badge {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            text-align: right;
+        }
+
+        .model-badge .power {
+            font-size: 64px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .model-badge .power-label {
+            font-size: 14px;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            padding: 50px;
+            background: white;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(145deg, var(--gray-100) 0%, var(--gray-50) 100%);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .carousel { display: flex; transition: transform 0.5s ease; }
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            min-height: 400px;
+        }
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 340px;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .carousel-btn:hover { background: var(--accent); color: white; transform: translateY(-50%) scale(1.1); }
+        .carousel-btn.prev { left: 15px; }
+        .carousel-btn.next { right: 15px; }
+
+        .carousel-dots { display: flex; justify-content: center; gap: 10px; padding: 20px 0; }
+        .carousel-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot.active { background: var(--accent); transform: scale(1.3); }
+
+        /* Hero Features */
+        .hero-features { display: flex; flex-direction: column; justify-content: center; }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .feature-item:last-of-type { border-bottom: none; }
+
+        .feature-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, #ef4444 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .feature-text h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .feature-text p {
+            font-size: 13px;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* Buttons Row */
+        .buttons-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #ef4444 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4); }
+
+        .btn-secondary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-secondary:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+        /* ========== QUICK SPECS ========== */
+        .quick-specs {
+            background: var(--gray-50);
+            padding: 50px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::before {
+            content: '';
+            width: 4px; height: 32px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .spec-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-100);
+        }
+        .spec-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+        .spec-icon {
+            width: 50px; height: 50px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 22px;
+            color: var(--accent);
+        }
+
+        .spec-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .spec-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== PRICING ========== */
+        .pricing-section { padding: 60px 50px; background: white; }
+
+        .total-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%);
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .total-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 400px; height: 400px;
+            background: var(--accent);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+        .total-hero-content { position: relative; z-index: 1; }
+        .total-hero .label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+            margin-bottom: 15px;
+        }
+        .total-hero .price {
+            font-size: 80px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+        .total-hero .price .currency {
+            font-size: 36px;
+            font-weight: 400;
+            vertical-align: super;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+        .total-hero .breakdown {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+        .total-hero .breakdown strong { color: #fca5a5; }
+        .llave-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--success);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 25px;
+        }
+
+        /* Price Cards */
+        .price-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .price-card {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--gray-200);
+            background: white;
+        }
+        .price-card.highlight { border-color: var(--accent); }
+
+        .price-card-header {
+            padding: 20px 25px;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .price-card.highlight .price-card-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #ef4444 100%);
+            color: white;
+            border-bottom: none;
+        }
+        .price-card-header .num {
+            width: 32px; height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .price-card:not(.highlight) .price-card-header .num {
+            background: var(--gray-200);
+            color: var(--gray-600);
+        }
+        .price-card-header h3 { font-size: 18px; font-weight: 600; }
+
+        .price-card-body { padding: 25px; }
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .price-line:last-child { border-bottom: none; }
+        .price-line .label { color: var(--gray-500); font-size: 14px; }
+        .price-line .value { font-weight: 600; font-size: 16px; color: var(--gray-800); }
+        .price-line.subtotal {
+            background: var(--gray-50);
+            margin: 20px -25px -25px;
+            padding: 20px 25px;
+            border-radius: 0 0 18px 18px;
+            border-top: 2px solid var(--gray-200);
+        }
+        .price-line.subtotal .label { font-weight: 600; color: var(--gray-700); }
+        .price-line.subtotal .value { font-size: 24px; font-weight: 700; color: var(--primary); }
+        .price-card.highlight .price-line.subtotal .value { color: var(--accent); }
+
+        /* ========== INCLUDES ========== */
+        .includes-section { padding: 60px 50px; background: var(--gray-50); }
+
+        .includes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .includes-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .includes-header {
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .includes-header.success { background: var(--success-light); border-bottom: 2px solid var(--success); }
+        .includes-header.warning { background: var(--warning-light); border-bottom: 2px solid var(--warning); }
+        .includes-header .icon {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+        .includes-header.success .icon { background: var(--success); }
+        .includes-header.warning .icon { background: var(--warning); }
+        .includes-header h3 { font-size: 16px; font-weight: 700; }
+        .includes-header.success h3 { color: var(--success); }
+        .includes-header.warning h3 { color: var(--warning); }
+
+        .includes-body { padding: 25px; }
+        .includes-list { list-style: none; }
+        .includes-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+        .includes-list li:last-child { border-bottom: none; }
+        .includes-list li i { margin-top: 3px; }
+        .includes-list li i.fa-check { color: var(--success); }
+        .includes-list li i.fa-xmark { color: var(--warning); }
+
+        .important-note {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid var(--warning);
+            padding: 20px 25px;
+            margin-top: 25px;
+            border-radius: 0 16px 16px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .important-note i { font-size: 24px; color: var(--warning); }
+        .important-note h4 { font-size: 14px; font-weight: 700; color: var(--warning); margin-bottom: 5px; }
+        .important-note p { font-size: 13px; color: var(--gray-700); line-height: 1.6; }
+
+        /* ========== GUARANTEE ========== */
+        .guarantee-section {
+            padding: 50px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+        .guarantee-item { text-align: center; }
+        .guarantee-icon {
+            width: 70px; height: 70px;
+            background: var(--gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 28px;
+            color: var(--primary);
+        }
+        .guarantee-item h4 { font-size: 15px; font-weight: 600; color: var(--primary); }
+        .guarantee-item p { font-size: 13px; color: var(--gray-500); }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--gray-100);
+            padding: 30px 50px;
+            text-align: center;
+            border-top: 1px solid var(--gray-200);
+        }
+        .validity {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .footer p { font-size: 12px; color: var(--gray-500); }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h2 { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .modal-header h2 i { color: var(--accent); }
+        .modal-close {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        .modal-close:hover { background: var(--accent); }
+
+        .modal-body {
+            padding: 0;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--gray-200);
+            overflow-x: auto;
+        }
+        .tab {
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-500);
+            cursor: pointer;
+            border: none;
+            background: none;
+            white-space: nowrap;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 3px solid transparent;
+        }
+        .tab:hover { color: var(--primary); background: var(--gray-50); }
+        .tab.active {
+            color: var(--accent);
+            background: white;
+            border-bottom-color: var(--accent);
+        }
+        .tab i { font-size: 16px; }
+
+        .tab-content { display: none; padding: 30px; }
+        .tab-content.active { display: block; }
+
+        /* Tab Content Styles */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+        }
+        .info-card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-card h4 i { font-size: 16px; }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--gray-200);
+            font-size: 13px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .label { color: var(--gray-500); }
+        .info-row .value { font-weight: 600; color: var(--gray-800); }
+
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 13px;
+            color: var(--gray-700);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list li i { color: var(--success); margin-top: 3px; }
+
+        .full-width { grid-column: 1 / -1; }
+
+        /* Accordion in modal */
+        .accordion-item {
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 16px 20px;
+            background: var(--gray-50);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+        .accordion-header:hover { background: var(--gray-100); }
+        .accordion-header i { transition: transform 0.3s; }
+        .accordion-item.active .accordion-header i { transform: rotate(180deg); }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .accordion-item.active .accordion-body { max-height: 500px; }
+        .accordion-body-inner { padding: 20px; }
+
+        /* Response Badge */
+        .response-badge {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(5, 150, 105, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+        .response-badge .time { font-size: 22px; font-weight: 700; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+            .price-breakdown { grid-template-columns: 1fr; }
+            .includes-grid { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .model-badge { position: static; text-align: left; margin-top: 25px; }
+            .guarantee-section { flex-wrap: wrap; gap: 30px; }
+            .total-hero .price { font-size: 56px; }
+            .tabs { flex-wrap: nowrap; }
+        }
+
+        @media print {
+            .response-badge, .modal-overlay, .carousel-btn { display: none !important; }
+            .container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header"><a href="https://generadores.ar" class="logo-link"><img src="logo-kor.png" alt="KOR Generadores" class="header-logo"></a>
+            <div class="header-content">
+                <div class="brand-row">
+                    <span class="brand-badge"><i class="fas fa-bolt"></i> Generador Residencial a Gas</span>
+                    <span class="brand-badge"><i class="fas fa-shield-halved"></i> Homologado ENARGAS</span>
+                </div>
+                <h1>PRAMAC <span>GA8000</span></h1>
+                <p class="subtitle">Grupo Electrogeno Automatico Insonorizado con Tablero de Transferencia Incluido</p>
+            </div>
+            <div class="model-badge">
+                <div class="power">8kVA</div>
+                <div class="power-label">Potencia Stand-By</div>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="carousel-container">
+                <div class="carousel" id="carousel">
+                    <div class="carousel-slide"><img src="IMAGENES-GA8000/GA8000_20251014_165627_1.webp" alt="PRAMAC GA8000"></div>
+                    <div class="carousel-slide"><img src="IMAGENES-GA8000/GA8000_20251014_165627_2.webp" alt="PRAMAC GA8000"></div>
+                    <div class="carousel-slide"><img src="IMAGENES-GA8000/GA8000_20251014_165627_4.webp" alt="PRAMAC GA8000"></div>
+                    <div class="carousel-slide"><img src="IMAGENES-GA8000/GA8000_20251014_165627_5.webp" alt="PRAMAC GA8000"></div>
+                    <div class="carousel-slide"><img src="IMAGENES-GA8000/GA8000_20251014_165627_7.webp" alt="PRAMAC GA8000"></div>
+                </div>
+                <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="feature-text">
+                        <h4>Arranque Automatico en menos de 10 segundos</h4>
+                        <p>Detecta cortes de luz y arranca sin intervencion humana</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-volume-low"></i></div>
+                    <div class="feature-text">
+                        <h4>Ultra Silencioso - 65 dB @ 7m</h4>
+                        <p>Cabina insonorizada Rino Coat para zonas residenciales</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-shuffle"></i></div>
+                    <div class="feature-text">
+                        <h4>Tablero de Transferencia Incluido</h4>
+                        <p>TTA de fabrica integrado - otras marcas lo cobran aparte</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-wifi"></i></div>
+                    <div class="feature-text">
+                        <h4>Monitoreo WiFi Mobile Link</h4>
+                        <p>Controla el generador desde tu celular en tiempo real</p>
+                    </div>
+                </div>
+
+                <div class="buttons-row">
+                    <a href="GA8000.pdf" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-file-pdf"></i> Ficha Tecnica PDF
+                    </a>
+                    <button class="btn btn-secondary" onclick="openModal()">
+                        <i class="fas fa-info-circle"></i> Ver Todo
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUICK SPECS -->
+        <section class="quick-specs">
+            <div class="section-header">
+                <h2 class="section-title">Especificaciones Principales</h2>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="spec-value">8 kVA</div>
+                    <div class="spec-label">Potencia Stand-By</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon"><i class="fas fa-plug"></i></div>
+                    <div class="spec-value">220V</div>
+                    <div class="spec-label">Monofasico 50Hz</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon"><i class="fas fa-fire-flame-simple"></i></div>
+                    <div class="spec-value">GN/GLP</div>
+                    <div class="spec-label">Gas Natural o Envasado</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon"><i class="fas fa-clock"></i></div>
+                    <div class="spec-value">&lt;10s</div>
+                    <div class="spec-label">Tiempo de Arranque</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section class="pricing-section">
+            <h2 class="section-title">Inversion Total</h2>
+
+            <div class="total-hero">
+                <div class="total-hero-content">
+                    <div class="label">Precio Total Llave en Mano</div>
+                    <div class="price"><span class="currency">USD</span>7,630</div>
+                    <div class="breakdown">
+                        Equipo <strong>USD 6,630</strong> + Instalacion <strong>USD 1,000</strong>
+                    </div>
+                    <div class="llave-badge"><i class="fas fa-check"></i> Listo para funcionar</div>
+                </div>
+            </div>
+
+            <div class="price-breakdown">
+                <div class="price-card highlight">
+                    <div class="price-card-header">
+                        <span class="num">1</span>
+                        <h3>Equipo Generador</h3>
+                    </div>
+                    <div class="price-card-body">
+                        <div class="price-line">
+                            <span class="label">Generador PRAMAC GA8000</span>
+                            <span class="value">USD 6,000</span>
+                        </div>
+                        <div class="price-line">
+                            <span class="label">IVA 10.5%</span>
+                            <span class="value">USD 630</span>
+                        </div>
+                        <div class="price-line subtotal">
+                            <span class="label">Subtotal Equipo</span>
+                            <span class="value">USD 6,630</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-header">
+                        <span class="num">2</span>
+                        <h3>Instalacion Completa</h3>
+                    </div>
+                    <div class="price-card-body">
+                        <div class="price-line">
+                            <span class="label">Traslado e instalacion</span>
+                            <span class="value">USD 1,000</span>
+                        </div>
+                        <div class="price-line">
+                            <span class="label">IVA</span>
+                            <span class="value" style="color: var(--success);">Exento</span>
+                        </div>
+                        <div class="price-line subtotal">
+                            <span class="label">Subtotal Instalacion</span>
+                            <span class="value">USD 1,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INCLUDES -->
+        <section class="includes-section">
+            <h2 class="section-title">Que incluye la instalacion?</h2>
+
+            <div class="includes-grid">
+                <div class="includes-card">
+                    <div class="includes-header success">
+                        <div class="icon"><i class="fas fa-check"></i></div>
+                        <h3>INCLUIDO en el precio</h3>
+                    </div>
+                    <div class="includes-body">
+                        <ul class="includes-list">
+                            <li><i class="fas fa-check"></i> <span><strong>Traslado</strong> del equipo a tu domicilio</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Base de apoyo</strong> Retack (si es necesaria)</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Hasta 5 metros</strong> de caneria de gas</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Conexion electrica</strong> al tablero de transferencia</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Bateria de arranque</strong> 12V instalada</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Puesta en marcha</strong> y configuracion completa</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Registro de garantia</strong> online oficial</span></li>
+                            <li><i class="fas fa-check"></i> <span><strong>Zanjeo por tierra</strong> si fuera necesario</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="includes-card">
+                    <div class="includes-header warning">
+                        <div class="icon"><i class="fas fa-xmark"></i></div>
+                        <h3>NO incluido (costo adicional)</h3>
+                    </div>
+                    <div class="includes-body">
+                        <ul class="includes-list">
+                            <li><i class="fas fa-xmark"></i> <span><strong>Roturas de piso o paredes</strong> para pasar canerias</span></li>
+                            <li><i class="fas fa-xmark"></i> <span><strong>Tramite de habilitacion</strong> de gas ante ENARGAS</span></li>
+                            <li><i class="fas fa-xmark"></i> <span><strong>Trabajos de albanileria</strong> adicionales</span></li>
+                            <li><i class="fas fa-xmark"></i> <span><strong>Metros extra de caneria</strong> (mas de 5m)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="important-note">
+                <i class="fas fa-circle-info"></i>
+                <div>
+                    <h4>Importante sobre la instalacion</h4>
+                    <p>La mayoria de las instalaciones residenciales se realizan sin necesidad de roturas ni trabajos adicionales. Si tu caso requiere trabajos extra, te lo informaremos antes con un presupuesto separado.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- GUARANTEE -->
+        <section class="guarantee-section">
+            <div class="guarantee-item">
+                <div class="guarantee-icon"><i class="fas fa-shield-halved"></i></div>
+                <h4>2 Anos de Garantia</h4>
+                <p>Equipo completo</p>
+            </div>
+            <div class="guarantee-item">
+                <div class="guarantee-icon"><i class="fas fa-gear"></i></div>
+                <h4>Motor Generac G-Force</h4>
+                <p>Tecnologia USA</p>
+            </div>
+            <div class="guarantee-item">
+                <div class="guarantee-icon"><i class="fas fa-flag"></i></div>
+                <h4>Fabricacion Italiana</h4>
+                <p>PRAMAC S.p.A.</p>
+            </div>
+            <div class="guarantee-item">
+                <div class="guarantee-icon"><i class="fas fa-wrench"></i></div>
+                <h4>Servicio Tecnico</h4>
+                <p>Red autorizada Argentina</p>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <span class="validity"><i class="fas fa-calendar"></i> Presupuesto valido por 15 dias</span>
+            <p>Los precios estan expresados en Dolares Estadounidenses (USD).<br>
+            El IVA aplica unicamente al equipo. La instalacion esta exenta de IVA. Sujeto a disponibilidad.</p>
+        </footer>
+    </div>
+
+    <!-- Response Badge -->
+    <div class="response-badge">
+        <i class="fas fa-bolt"></i>
+        <span>Respuesta ante corte:</span>
+        <span class="time">&lt;10s</span>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-microchip"></i> Especificaciones Completas GA8000</h2>
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('motor')"><i class="fas fa-gear"></i> Motor</button>
+                    <button class="tab" onclick="showTab('electrico')"><i class="fas fa-bolt"></i> Electrico</button>
+                    <button class="tab" onclick="showTab('gas')"><i class="fas fa-fire-flame-simple"></i> Combustible</button>
+                    <button class="tab" onclick="showTab('control')"><i class="fas fa-sliders"></i> Control</button>
+                    <button class="tab" onclick="showTab('dimensiones')"><i class="fas fa-ruler-combined"></i> Dimensiones</button>
+                    <button class="tab" onclick="showTab('faq')"><i class="fas fa-circle-question"></i> Preguntas</button>
+                </div>
+
+                <!-- TAB: Motor -->
+                <div class="tab-content active" id="tab-motor">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-engine"></i> Motor</h4>
+                            <div class="info-row"><span class="label">Modelo</span><span class="value">Generac G-Force 500 Series</span></div>
+                            <div class="info-row"><span class="label">Tipo</span><span class="value">OHV 4 tiempos - Refrigerado aire</span></div>
+                            <div class="info-row"><span class="label">Cilindros</span><span class="value">2 en V</span></div>
+                            <div class="info-row"><span class="label">Cilindrada</span><span class="value">530 cc</span></div>
+                            <div class="info-row"><span class="label">RPM</span><span class="value">3000 rpm @ 50Hz</span></div>
+                            <div class="info-row"><span class="label">Capacidad aceite</span><span class="value">1.6 Litros</span></div>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fas fa-wrench"></i> Mantenimiento</h4>
+                            <div class="info-row"><span class="label">Primer cambio</span><span class="value">50 horas (solo aceite)</span></div>
+                            <div class="info-row"><span class="label">Intervalo regular</span><span class="value">200 horas o anual</span></div>
+                            <div class="info-row"><span class="label">Vida util estimada</span><span class="value">20,000+ horas</span></div>
+                            <div class="info-row"><span class="label">Aceite recomendado</span><span class="value">SAE 10W-30 sintetico</span></div>
+                        </div>
+                        <div class="info-card full-width">
+                            <h4><i class="fas fa-star"></i> Caracteristicas del Motor G-Force</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Diseno exclusivo Generac optimizado para generadores (no adaptado de otras aplicaciones)</li>
+                                <li><i class="fas fa-check"></i> Paredes de cilindro de hierro fundido para mayor durabilidad</li>
+                                <li><i class="fas fa-check"></i> Sistema de lubricacion a presion en rodamientos principales</li>
+                                <li><i class="fas fa-check"></i> Encendido electronico con avance automatico</li>
+                                <li><i class="fas fa-check"></i> Parada automatica por baja presion de aceite y sobretemperatura</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Electrico -->
+                <div class="tab-content" id="tab-electrico">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-bolt"></i> Alternador</h4>
+                            <div class="info-row"><span class="label">Tipo</span><span class="value">Brushless (sin escobillas)</span></div>
+                            <div class="info-row"><span class="label">Potencia Stand-By</span><span class="value">8 kVA / 6.4 kW</span></div>
+                            <div class="info-row"><span class="label">Potencia Prime</span><span class="value">7.5 kVA / 6.0 kW</span></div>
+                            <div class="info-row"><span class="label">Factor de potencia</span><span class="value">0.8 - 1.0</span></div>
+                            <div class="info-row"><span class="label">Tension</span><span class="value">220V Monofasico</span></div>
+                            <div class="info-row"><span class="label">Frecuencia</span><span class="value">50 Hz</span></div>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fas fa-chart-line"></i> Calidad de Energia</h4>
+                            <div class="info-row"><span class="label">Regulacion voltaje</span><span class="value">AVR ±1%</span></div>
+                            <div class="info-row"><span class="label">THD (Distorsion)</span><span class="value">&lt;5% True Power™</span></div>
+                            <div class="info-row"><span class="label">Clase aislamiento</span><span class="value">Clase H</span></div>
+                            <div class="info-row"><span class="label">Corriente maxima</span><span class="value">31-40 Amperes</span></div>
+                        </div>
+                        <div class="info-card full-width">
+                            <h4><i class="fas fa-microchip"></i> Tecnologia True Power™</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> THD menor a 5% - energia limpia para electronica sensible (PCs, TVs LED, equipos medicos)</li>
+                                <li><i class="fas fa-check"></i> Campo giratorio 25% mas eficiente que alternadores inducidos</li>
+                                <li><i class="fas fa-check"></i> Estator inclinado produce onda sinusoidal fluida</li>
+                                <li><i class="fas fa-check"></i> Excitacion de fase desplazada maximiza capacidad de arranque de motores</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Gas -->
+                <div class="tab-content" id="tab-gas">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-fire-flame-simple"></i> Combustible</h4>
+                            <div class="info-row"><span class="label">Tipo</span><span class="value">Dual: GN o GLP</span></div>
+                            <div class="info-row"><span class="label">Conexion</span><span class="value">Flexible incluido</span></div>
+                            <div class="info-row"><span class="label">Presion minima GN</span><span class="value">3.5" col. agua</span></div>
+                            <div class="info-row"><span class="label">Certificacion</span><span class="value">ENARGAS Argentina</span></div>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fas fa-gas-pump"></i> Consumo</h4>
+                            <div class="info-row"><span class="label">Gas Natural 100%</span><span class="value">3.9 m³/h</span></div>
+                            <div class="info-row"><span class="label">Gas Natural 50%</span><span class="value">~2.5 m³/h</span></div>
+                            <div class="info-row"><span class="label">GLP 100%</span><span class="value">~3.2 kg/h</span></div>
+                            <div class="info-row"><span class="label">Autonomia GN</span><span class="value">Ilimitada (red)</span></div>
+                        </div>
+                        <div class="info-card full-width">
+                            <h4><i class="fas fa-calculator"></i> Costo Operativo Estimado</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Gas natural residencial Argentina: ~USD 0.10-0.15 por m³</li>
+                                <li><i class="fas fa-check"></i> Costo por hora al 50% carga: USD 0.30-0.50</li>
+                                <li><i class="fas fa-check"></i> Corte de 4 horas tipico: USD 1.50-2.00 de gas</li>
+                                <li><i class="fas fa-check"></i> 15-20% mas eficiente que generadores chinos similares</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Control -->
+                <div class="tab-content" id="tab-control">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-display"></i> Panel de Control</h4>
+                            <div class="info-row"><span class="label">Modelo</span><span class="value">Evolution Controller</span></div>
+                            <div class="info-row"><span class="label">Pantalla</span><span class="value">LCD 2 lineas multilingue</span></div>
+                            <div class="info-row"><span class="label">WiFi</span><span class="value">Incluido de serie</span></div>
+                            <div class="info-row"><span class="label">App</span><span class="value">Mobile Link iOS/Android</span></div>
+                            <div class="info-row"><span class="label">Alertas</span><span class="value">Email/SMS configurables</span></div>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fas fa-shield-halved"></i> Protecciones</h4>
+                            <div class="info-row"><span class="label">Sobrecarga</span><span class="value">Automatica</span></div>
+                            <div class="info-row"><span class="label">Cortocircuito</span><span class="value">Automatica</span></div>
+                            <div class="info-row"><span class="label">Baja presion aceite</span><span class="value">Parada auto</span></div>
+                            <div class="info-row"><span class="label">Alta temperatura</span><span class="value">Parada auto</span></div>
+                            <div class="info-row"><span class="label">Sobrevelocidad</span><span class="value">Automatica</span></div>
+                        </div>
+                        <div class="info-card full-width">
+                            <h4><i class="fas fa-shuffle"></i> Transferencia Automatica (TTA Incluido)</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Deteccion de falla de red en menos de 5 segundos</li>
+                                <li><i class="fas fa-check"></i> Arranque y transferencia total en 15-20 segundos</li>
+                                <li><i class="fas fa-check"></i> Retransferencia automatica cuando vuelve la red</li>
+                                <li><i class="fas fa-check"></i> Ejercitador programable semanal/quincenal/mensual</li>
+                                <li><i class="fas fa-check"></i> Retraso ajustable de 2 a 1500 segundos</li>
+                                <li><i class="fas fa-check"></i> Cargador inteligente de bateria integrado</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Dimensiones -->
+                <div class="tab-content" id="tab-dimensiones">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4><i class="fas fa-ruler-combined"></i> Dimensiones</h4>
+                            <div class="info-row"><span class="label">Largo</span><span class="value">1218 mm</span></div>
+                            <div class="info-row"><span class="label">Ancho</span><span class="value">638 mm</span></div>
+                            <div class="info-row"><span class="label">Alto</span><span class="value">732 mm</span></div>
+                            <div class="info-row"><span class="label">Peso seco</span><span class="value">155 kg</span></div>
+                            <div class="info-row"><span class="label">Peso operativo</span><span class="value">~165 kg</span></div>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fas fa-volume-low"></i> Insonorizacion</h4>
+                            <div class="info-row"><span class="label">Nivel sonoro</span><span class="value">65-70 dB @ 7m</span></div>
+                            <div class="info-row"><span class="label">Cabina</span><span class="value">Aluminio Rino Coat™</span></div>
+                            <div class="info-row"><span class="label">Resist. viento</span><span class="value">Hasta 240 km/h</span></div>
+                            <div class="info-row"><span class="label">Proteccion</span><span class="value">Apto intemperie</span></div>
+                        </div>
+                        <div class="info-card full-width">
+                            <h4><i class="fas fa-temperature-half"></i> Condiciones de Operacion</h4>
+                            <div class="info-row"><span class="label">Temperatura</span><span class="value">-15°C a +40°C</span></div>
+                            <div class="info-row"><span class="label">Altitud</span><span class="value">Hasta 1500 msnm sin derating</span></div>
+                            <div class="info-row"><span class="label">Humedad</span><span class="value">0-95% sin condensacion</span></div>
+                            <div class="info-row"><span class="label">Ubicacion</span><span class="value">Exterior - Base firme recomendada</span></div>
+                            <div class="info-row"><span class="label">Espacio requerido</span><span class="value">50cm adicional cada lado para ventilacion</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: FAQ -->
+                <div class="tab-content" id="tab-faq">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Que electrodomesticos puedo conectar con 8 kVA?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-body-inner">
+                                Con 8 kVA (36 amperes en 220V) podes manejar: heladera + freezer + iluminacion LED completa + 2-3 TVs + computadoras + WiFi + bomba de agua + porton electrico + split de 1.5-2 ton + alarma + camaras. Lo importante es no prender todo simultaneamente.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Funciona con gas natural de red o necesito tanque?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-body-inner">
+                                Funciona perfecto con gas natural de red domiciliaria, esa es su aplicacion ideal. Lo conectas directamente al cano de gas. Es bi-fuel, tambien podes usarlo con GLP si no tenes gas natural de red. La ventaja del GN es que nunca se acaba y el costo es menor.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Hace mucho ruido? Molesta a los vecinos?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-body-inner">
+                                No, con la cabina insonorizada queda en 65-70 dB a 7 metros. Es como una conversacion normal o un aire acondicionado. A 15 metros ya casi no se escucha. Un generador sin cabina hace 95-100 dB (como un taladro). Este es apto para zonas residenciales.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Cuanto mantenimiento necesita y cuanto cuesta?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-body-inner">
+                                Mantenimiento simple: primer cambio a las 50 horas (solo aceite). Despues cada 200 horas o 1 ano: cambio aceite (1.6L), filtro aire, bujias. Costo anual: USD 150-250 con service, o USD 80-120 si lo haces vos. El equipo tiene ejercitador automatico semanal.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Que garantia tiene? Que cubre?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-body-inner">
+                                2 anos de garantia oficial desde puesta en marcha. Cubre motor, alternador, panel de control, todos los componentes. Es garantia de fabrica del Grupo Generac. No cubre: instalacion incorrecta, falta de mantenimiento, uso inadecuado. Hay garantia extendida disponible hasta 10 anos.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Cuanto demoran los repuestos si necesito algo?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-body-inner">
+                                Repuestos comunes (filtros, bujias, aceite) en 24-48 horas. Repuestos especificos (panel, sensores) en 3-7 dias, estan en stock en Argentina. PRAMAC/Generac tiene buena disponibilidad local, no como marcas chinas que todo viene importado en 60-90 dias.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carousel
+        let currentSlide = 0;
+        const carousel = document.getElementById('carousel');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        const dotsContainer = document.getElementById('carouselDots');
+
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateCarousel() {
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function moveCarousel(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(i) { currentSlide = i; updateCarousel(); }
+        setInterval(() => moveCarousel(1), 5000);
+
+        // Modal
+        function openModal() { document.getElementById('modal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { document.getElementById('modal').classList.remove('active'); document.body.style.overflow = ''; }
+
+        // Tabs
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // Accordion
+        function toggleAccordion(el) {
+            el.parentElement.classList.toggle('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Close modal on ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>

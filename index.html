@@ -760,6 +760,136 @@
         .accordion-item.active .accordion-body { max-height: 500px; }
         .accordion-body-inner { padding: 20px; }
 
+        /* ========== INSTAGRAM SECTION ========== */
+        .instagram-section {
+            padding: 60px 50px;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .instagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .instagram-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instagram-title i {
+            font-size: 32px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .instagram-title h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .instagram-title span {
+            font-size: 14px;
+            color: var(--gray-500);
+            font-weight: 400;
+        }
+
+        .instagram-follow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .instagram-follow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4);
+        }
+
+        .instagram-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .instagram-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .instagram-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .instagram-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .instagram-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .instagram-item:hover::after {
+            opacity: 1;
+        }
+
+        .instagram-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .instagram-item:hover .instagram-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .instagram-overlay i {
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .instagram-grid { grid-template-columns: repeat(3, 1fr); }
+            .instagram-header { flex-direction: column; gap: 20px; text-align: center; }
+        }
+
         /* Response Badge */
         .response-badge {
             position: fixed;
@@ -1030,6 +1160,48 @@
                 <div class="guarantee-icon"><i class="fas fa-wrench"></i></div>
                 <h4>Servicio Tecnico</h4>
                 <p>Red autorizada Argentina</p>
+            </div>
+        </section>
+
+        <!-- INSTAGRAM -->
+        <section class="instagram-section">
+            <div class="instagram-header">
+                <div class="instagram-title">
+                    <i class="fab fa-instagram"></i>
+                    <div>
+                        <h2>@generadores.ar</h2>
+                        <span>Seguinos en Instagram</span>
+                    </div>
+                </div>
+                <a href="https://instagram.com/generadores.ar" target="_blank" class="instagram-follow">
+                    <i class="fab fa-instagram"></i> Seguir
+                </a>
+            </div>
+            <div class="instagram-grid">
+                <div class="instagram-item">
+                    <img src="instagram/1.jpg" alt="KOR Generadores">
+                    <div class="instagram-overlay"><i class="fas fa-heart"></i></div>
+                </div>
+                <div class="instagram-item">
+                    <img src="instagram/2.jpg" alt="KOR Generadores">
+                    <div class="instagram-overlay"><i class="fas fa-heart"></i></div>
+                </div>
+                <div class="instagram-item">
+                    <img src="instagram/3.jpg" alt="KOR Generadores">
+                    <div class="instagram-overlay"><i class="fas fa-heart"></i></div>
+                </div>
+                <div class="instagram-item">
+                    <img src="instagram/4.jpg" alt="KOR Generadores">
+                    <div class="instagram-overlay"><i class="fas fa-heart"></i></div>
+                </div>
+                <div class="instagram-item">
+                    <img src="instagram/5.jpg" alt="KOR Generadores">
+                    <div class="instagram-overlay"><i class="fas fa-heart"></i></div>
+                </div>
+                <div class="instagram-item">
+                    <img src="instagram/6.jpg" alt="KOR Generadores">
+                    <div class="instagram-overlay"><i class="fas fa-heart"></i></div>
+                </div>
             </div>
         </section>
 

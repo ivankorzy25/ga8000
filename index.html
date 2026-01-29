@@ -890,6 +890,226 @@
             .instagram-header { flex-direction: column; gap: 20px; text-align: center; }
         }
 
+        /* ========== INSTAGRAM GALLERY MODAL ========== */
+        .gallery-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            margin-left: 10px;
+        }
+
+        .gallery-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .ig-gallery-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            overflow-y: auto;
+        }
+
+        .ig-gallery-modal.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .ig-gallery-header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 20px 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .ig-gallery-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .ig-gallery-brand img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+        }
+
+        .ig-gallery-brand-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .ig-gallery-brand-info span {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .ig-gallery-close {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ig-gallery-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        .ig-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            padding: 0 4px 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ig-gallery-item {
+            aspect-ratio: 1;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ig-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .ig-gallery-item:hover img {
+            transform: scale(1.05);
+            filter: brightness(0.7);
+        }
+
+        .ig-gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0);
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ig-gallery-item:hover::after {
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* Lightbox para ver imagen grande */
+        .ig-lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.98);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ig-lightbox.active {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .ig-lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .ig-lightbox-content img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .ig-lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .ig-lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            color: #333;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ig-lightbox-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .ig-lightbox-prev { left: -70px; }
+        .ig-lightbox-next { right: -70px; }
+
+        .ig-lightbox-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .ig-gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+            .ig-lightbox-nav { display: none; }
+            .ig-lightbox-content img { max-width: 95vw; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         /* Response Badge */
         .response-badge {
             position: fixed;
@@ -1173,9 +1393,14 @@
                         <span>Seguinos en Instagram</span>
                     </div>
                 </div>
-                <a href="https://instagram.com/generadores.ar" target="_blank" class="instagram-follow">
-                    <i class="fab fa-instagram"></i> Seguir
-                </a>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="gallery-btn" onclick="openGallery()">
+                        <i class="fas fa-images"></i> Ver Galeria
+                    </button>
+                    <a href="https://instagram.com/generadores.ar" target="_blank" class="instagram-follow">
+                        <i class="fab fa-instagram"></i> Seguir
+                    </a>
+                </div>
             </div>
             <div class="instagram-grid">
                 <div class="instagram-item">
@@ -1543,6 +1768,124 @@
         // Close modal on ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
+        });
+    </script>
+
+    <!-- INSTAGRAM GALLERY MODAL -->
+    <div class="ig-gallery-modal" id="igGalleryModal">
+        <div class="ig-gallery-header">
+            <div class="ig-gallery-brand">
+                <img src="logo.png" alt="KOR Generadores" onerror="this.src='https://via.placeholder.com/50/f97316/fff?text=K'">
+                <div class="ig-gallery-brand-info">
+                    <h3>@generadores.ar</h3>
+                    <span>30 publicaciones</span>
+                </div>
+            </div>
+            <button class="ig-gallery-close" onclick="closeGallery()">&times;</button>
+        </div>
+        <div class="ig-gallery-grid">
+            <div class="ig-gallery-item" onclick="openLightbox(1)"><img src="galeria/1.jpg" alt="Galeria 1"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(2)"><img src="galeria/2.jpg" alt="Galeria 2"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(3)"><img src="galeria/3.jpg" alt="Galeria 3"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(4)"><img src="galeria/4.jpg" alt="Galeria 4"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(5)"><img src="galeria/5.jpg" alt="Galeria 5"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(6)"><img src="galeria/6.jpg" alt="Galeria 6"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(7)"><img src="galeria/7.jpg" alt="Galeria 7"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(8)"><img src="galeria/8.jpg" alt="Galeria 8"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(9)"><img src="galeria/9.jpg" alt="Galeria 9"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(10)"><img src="galeria/10.jpg" alt="Galeria 10"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(11)"><img src="galeria/11.jpg" alt="Galeria 11"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(12)"><img src="galeria/12.jpg" alt="Galeria 12"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(13)"><img src="galeria/13.jpg" alt="Galeria 13"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(14)"><img src="galeria/14.jpg" alt="Galeria 14"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(15)"><img src="galeria/15.jpg" alt="Galeria 15"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(16)"><img src="galeria/16.jpg" alt="Galeria 16"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(17)"><img src="galeria/17.jpg" alt="Galeria 17"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(18)"><img src="galeria/18.jpg" alt="Galeria 18"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(19)"><img src="galeria/19.jpg" alt="Galeria 19"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(20)"><img src="galeria/20.jpg" alt="Galeria 20"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(21)"><img src="galeria/21.jpg" alt="Galeria 21"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(22)"><img src="galeria/22.jpg" alt="Galeria 22"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(23)"><img src="galeria/23.jpg" alt="Galeria 23"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(24)"><img src="galeria/24.jpg" alt="Galeria 24"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(25)"><img src="galeria/25.jpg" alt="Galeria 25"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(26)"><img src="galeria/26.jpg" alt="Galeria 26"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(27)"><img src="galeria/27.jpg" alt="Galeria 27"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(28)"><img src="galeria/28.jpg" alt="Galeria 28"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(29)"><img src="galeria/29.jpg" alt="Galeria 29"></div>
+            <div class="ig-gallery-item" onclick="openLightbox(30)"><img src="galeria/30.jpg" alt="Galeria 30"></div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="ig-lightbox" id="igLightbox">
+        <div class="ig-lightbox-content">
+            <button class="ig-lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="ig-lightbox-nav ig-lightbox-prev" onclick="prevImage()"><i class="fas fa-chevron-left"></i></button>
+            <img id="lightboxImg" src="" alt="Imagen">
+            <button class="ig-lightbox-nav ig-lightbox-next" onclick="nextImage()"><i class="fas fa-chevron-right"></i></button>
+            <div class="ig-lightbox-counter"><span id="lightboxCounter">1</span> / 30</div>
+        </div>
+    </div>
+
+    <script>
+        let currentImage = 1;
+        const totalImages = 30;
+
+        function openGallery() {
+            document.getElementById('igGalleryModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            document.getElementById('igGalleryModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openLightbox(num) {
+            currentImage = num;
+            updateLightbox();
+            document.getElementById('igLightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('igLightbox').classList.remove('active');
+        }
+
+        function updateLightbox() {
+            document.getElementById('lightboxImg').src = 'galeria/' + currentImage + '.jpg';
+            document.getElementById('lightboxCounter').textContent = currentImage;
+        }
+
+        function prevImage() {
+            currentImage = currentImage > 1 ? currentImage - 1 : totalImages;
+            updateLightbox();
+        }
+
+        function nextImage() {
+            currentImage = currentImage < totalImages ? currentImage + 1 : 1;
+            updateLightbox();
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('igLightbox').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'Escape') closeLightbox();
+            }
+            if (document.getElementById('igGalleryModal').classList.contains('active') && e.key === 'Escape') {
+                closeGallery();
+            }
+        });
+
+        // Close gallery on click outside
+        document.getElementById('igGalleryModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGallery();
+        });
+
+        document.getElementById('igLightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
         });
     </script>
 </body>

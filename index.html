@@ -1352,15 +1352,100 @@
             .ig-gallery-close { width: 42px; height: 42px; font-size: 22px; }
             .ig-gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 0 3px 25px; }
 
-            .ig-lightbox-content { padding: 15px; }
-            .ig-lightbox-content img { max-width: 100vw; max-height: 75vh; border-radius: 8px; }
-            .ig-lightbox-close { top: -50px; right: 10px; width: 44px; height: 44px; font-size: 22px; }
-            .ig-lightbox-counter { bottom: -40px; font-size: 14px; }
-            .ig-lightbox-nav { display: none; }
+            /* ===== LIGHTBOX MOVIL REDISEÑADO ===== */
+            .ig-lightbox {
+                display: none;
+                flex-direction: column;
+            }
+            .ig-lightbox.active {
+                display: flex;
+            }
+            .ig-lightbox-content {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 60px 10px 120px;
+            }
+            .ig-lightbox-content img {
+                max-width: 95vw;
+                max-height: 65vh;
+                border-radius: 12px;
+                object-fit: contain;
+                touch-action: pan-y pinch-zoom;
+            }
+            .ig-lightbox-close {
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 28px;
+                background: rgba(255,255,255,0.15);
+                z-index: 100;
+            }
+            .ig-lightbox-counter {
+                position: fixed;
+                top: 22px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 16px;
+                font-weight: 600;
+                background: rgba(0,0,0,0.6);
+                padding: 8px 20px;
+                border-radius: 20px;
+            }
+            /* Botones de navegación visibles en móvil */
+            .ig-lightbox-nav {
+                display: flex !important;
+                position: fixed;
+                bottom: 30px;
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.95);
+                color: #333;
+                font-size: 24px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 100;
+            }
+            .ig-lightbox-prev {
+                left: 25%;
+                transform: translateX(-50%);
+            }
+            .ig-lightbox-next {
+                right: 25%;
+                transform: translateX(50%);
+            }
+            .ig-lightbox-nav:active {
+                transform: scale(0.95);
+                background: white;
+            }
+            .ig-lightbox-prev:active { transform: translateX(-50%) scale(0.95); }
+            .ig-lightbox-next:active { transform: translateX(50%) scale(0.95); }
+
+            /* Indicador de swipe */
+            .swipe-hint {
+                position: fixed;
+                bottom: 110px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgba(255,255,255,0.6);
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
         }
 
         @media (max-width: 480px) {
             .ig-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .ig-lightbox-nav { width: 60px; height: 60px; font-size: 20px; }
+            .ig-lightbox-prev { left: 20%; }
+            .ig-lightbox-next { right: 20%; }
         }
 
         /* ===== MEJORAS TÁCTILES ===== */
@@ -2053,12 +2138,13 @@
 
     <!-- LIGHTBOX -->
     <div class="ig-lightbox" id="igLightbox">
-        <div class="ig-lightbox-content">
+        <div class="ig-lightbox-content" id="lightboxContent">
             <button class="ig-lightbox-close" onclick="closeLightbox()">&times;</button>
-            <button class="ig-lightbox-nav ig-lightbox-prev" onclick="prevImage()"><i class="fas fa-chevron-left"></i></button>
-            <img id="lightboxImg" src="" alt="Imagen">
-            <button class="ig-lightbox-nav ig-lightbox-next" onclick="nextImage()"><i class="fas fa-chevron-right"></i></button>
             <div class="ig-lightbox-counter"><span id="lightboxCounter">1</span> / 30</div>
+            <img id="lightboxImg" src="" alt="Imagen">
+            <button class="ig-lightbox-nav ig-lightbox-prev" onclick="prevImage()"><i class="fas fa-chevron-left"></i></button>
+            <button class="ig-lightbox-nav ig-lightbox-next" onclick="nextImage()"><i class="fas fa-chevron-right"></i></button>
+            <div class="swipe-hint"><i class="fas fa-hand-pointer"></i> Desliza o usa los botones</div>
         </div>
     </div>
 
@@ -2087,7 +2173,10 @@
         }
 
         function updateLightbox() {
-            document.getElementById('lightboxImg').src = 'galeria/' + currentImage + '.jpg';
+            const img = document.getElementById('lightboxImg');
+            img.style.opacity = '0.5';
+            img.src = 'galeria/' + currentImage + '.jpg';
+            img.onload = function() { img.style.opacity = '1'; };
             document.getElementById('lightboxCounter').textContent = currentImage;
         }
 
@@ -2113,13 +2202,54 @@
             }
         });
 
+        // Touch/Swipe navigation for mobile
+        (function() {
+            const lightbox = document.getElementById('igLightbox');
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+            const minSwipeDistance = 50;
+
+            lightbox.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            lightbox.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = touchEndY - touchStartY;
+
+                // Solo procesar si el swipe horizontal es mayor que el vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                    if (deltaX > 0) {
+                        prevImage(); // Swipe derecha = imagen anterior
+                    } else {
+                        nextImage(); // Swipe izquierda = imagen siguiente
+                    }
+                }
+            }
+
+            // Tap en la imagen para cerrar (excepto en botones)
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox || e.target.id === 'lightboxImg') {
+                    // Cerrar solo si el tap es en el área oscura
+                    if (e.target === lightbox) {
+                        closeLightbox();
+                    }
+                }
+            });
+        })();
+
         // Close gallery on click outside
         document.getElementById('igGalleryModal').addEventListener('click', function(e) {
             if (e.target === this) closeGallery();
-        });
-
-        document.getElementById('igLightbox').addEventListener('click', function(e) {
-            if (e.target === this) closeLightbox();
         });
     </script>
 </body>

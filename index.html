@@ -1095,6 +1095,11 @@
             font-size: 14px;
         }
 
+        /* Ocultar scroll en desktop */
+        .ig-lightbox-scroll {
+            display: none;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -1352,100 +1357,65 @@
             .ig-gallery-close { width: 42px; height: 42px; font-size: 22px; }
             .ig-gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 0 3px 25px; }
 
-            /* ===== LIGHTBOX MOVIL REDISEÑADO ===== */
+            /* ===== LIGHTBOX MOVIL - SCROLL VERTICAL ===== */
             .ig-lightbox {
-                display: none;
-                flex-direction: column;
-            }
-            .ig-lightbox.active {
-                display: flex;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             .ig-lightbox-content {
-                position: relative;
-                width: 100%;
-                height: 100%;
+                display: none !important;
+            }
+            .ig-lightbox-nav,
+            .swipe-hint {
+                display: none !important;
+            }
+            /* Scroll gallery en móvil */
+            .ig-lightbox-scroll {
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 60px 10px 120px;
+                padding: 0;
             }
-            .ig-lightbox-content img {
-                max-width: 95vw;
-                max-height: 65vh;
-                border-radius: 12px;
-                object-fit: contain;
-                touch-action: pan-y pinch-zoom;
-            }
-            .ig-lightbox-close {
-                position: fixed;
-                top: 15px;
-                right: 15px;
-                width: 50px;
-                height: 50px;
-                font-size: 28px;
-                background: rgba(255,255,255,0.15);
+            .ig-lightbox-scroll-header {
+                position: sticky;
+                top: 0;
                 z-index: 100;
+                background: rgba(0,0,0,0.95);
+                padding: 15px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
             }
-            .ig-lightbox-counter {
-                position: fixed;
-                top: 22px;
-                left: 50%;
-                transform: translateX(-50%);
+            .ig-lightbox-scroll-header span {
+                color: white;
                 font-size: 16px;
                 font-weight: 600;
-                background: rgba(0,0,0,0.6);
-                padding: 8px 20px;
-                border-radius: 20px;
             }
-            /* Botones de navegación visibles en móvil */
-            .ig-lightbox-nav {
-                display: flex !important;
-                position: fixed;
-                bottom: 30px;
-                width: 70px;
-                height: 70px;
+            .ig-lightbox-scroll-close {
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
-                background: rgba(255,255,255,0.95);
-                color: #333;
-                font-size: 24px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-                z-index: 100;
+                background: rgba(255,255,255,0.1);
+                border: none;
+                color: white;
+                font-size: 22px;
+                cursor: pointer;
             }
-            .ig-lightbox-prev {
-                left: 25%;
-                transform: translateX(-50%);
-            }
-            .ig-lightbox-next {
-                right: 25%;
-                transform: translateX(50%);
-            }
-            .ig-lightbox-nav:active {
-                transform: scale(0.95);
-                background: white;
-            }
-            .ig-lightbox-prev:active { transform: translateX(-50%) scale(0.95); }
-            .ig-lightbox-next:active { transform: translateX(50%) scale(0.95); }
-
-            /* Indicador de swipe */
-            .swipe-hint {
-                position: fixed;
-                bottom: 110px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: rgba(255,255,255,0.6);
-                font-size: 13px;
+            .ig-lightbox-scroll-images {
                 display: flex;
-                align-items: center;
-                gap: 8px;
+                flex-direction: column;
+                gap: 2px;
+                background: #000;
+            }
+            .ig-lightbox-scroll-images img {
+                width: 100%;
+                height: auto;
+                display: block;
             }
         }
 
         @media (max-width: 480px) {
             .ig-gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .ig-lightbox-nav { width: 60px; height: 60px; font-size: 20px; }
-            .ig-lightbox-prev { left: 20%; }
-            .ig-lightbox-next { right: 20%; }
         }
 
         /* ===== MEJORAS TÁCTILES ===== */
@@ -2136,15 +2106,54 @@
         </div>
     </div>
 
-    <!-- LIGHTBOX -->
+    <!-- LIGHTBOX - Desktop usa navegación, Móvil usa scroll -->
     <div class="ig-lightbox" id="igLightbox">
+        <!-- Contenido Desktop -->
         <div class="ig-lightbox-content" id="lightboxContent">
             <button class="ig-lightbox-close" onclick="closeLightbox()">&times;</button>
             <div class="ig-lightbox-counter"><span id="lightboxCounter">1</span> / 30</div>
             <img id="lightboxImg" src="" alt="Imagen">
             <button class="ig-lightbox-nav ig-lightbox-prev" onclick="prevImage()"><i class="fas fa-chevron-left"></i></button>
             <button class="ig-lightbox-nav ig-lightbox-next" onclick="nextImage()"><i class="fas fa-chevron-right"></i></button>
-            <div class="swipe-hint"><i class="fas fa-hand-pointer"></i> Desliza o usa los botones</div>
+        </div>
+        <!-- Contenido Móvil - Scroll vertical -->
+        <div class="ig-lightbox-scroll">
+            <div class="ig-lightbox-scroll-header">
+                <span>Galería de Fotos</span>
+                <button class="ig-lightbox-scroll-close" onclick="closeLightbox()">&times;</button>
+            </div>
+            <div class="ig-lightbox-scroll-images">
+                <img src="galeria/1.jpg" alt="1">
+                <img src="galeria/2.jpg" alt="2">
+                <img src="galeria/3.jpg" alt="3">
+                <img src="galeria/4.jpg" alt="4">
+                <img src="galeria/5.jpg" alt="5">
+                <img src="galeria/6.jpg" alt="6">
+                <img src="galeria/7.jpg" alt="7">
+                <img src="galeria/8.jpg" alt="8">
+                <img src="galeria/9.jpg" alt="9">
+                <img src="galeria/10.jpg" alt="10">
+                <img src="galeria/11.jpg" alt="11">
+                <img src="galeria/12.jpg" alt="12">
+                <img src="galeria/13.jpg" alt="13">
+                <img src="galeria/14.jpg" alt="14">
+                <img src="galeria/15.jpg" alt="15">
+                <img src="galeria/16.jpg" alt="16">
+                <img src="galeria/17.jpg" alt="17">
+                <img src="galeria/18.jpg" alt="18">
+                <img src="galeria/19.jpg" alt="19">
+                <img src="galeria/20.jpg" alt="20">
+                <img src="galeria/21.jpg" alt="21">
+                <img src="galeria/22.jpg" alt="22">
+                <img src="galeria/23.jpg" alt="23">
+                <img src="galeria/24.jpg" alt="24">
+                <img src="galeria/25.jpg" alt="25">
+                <img src="galeria/26.jpg" alt="26">
+                <img src="galeria/27.jpg" alt="27">
+                <img src="galeria/28.jpg" alt="28">
+                <img src="galeria/29.jpg" alt="29">
+                <img src="galeria/30.jpg" alt="30">
+            </div>
         </div>
     </div>
 
@@ -2164,33 +2173,47 @@
 
         function openLightbox(num) {
             currentImage = num;
-            updateLightbox();
-            document.getElementById('igLightbox').classList.add('active');
+            const lightbox = document.getElementById('igLightbox');
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Desktop: actualizar imagen individual
+            const img = document.getElementById('lightboxImg');
+            if (img) {
+                img.src = 'galeria/' + currentImage + '.jpg';
+                document.getElementById('lightboxCounter').textContent = currentImage;
+            }
+
+            // Móvil: scroll a la imagen seleccionada
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                setTimeout(() => {
+                    const images = lightbox.querySelectorAll('.ig-lightbox-scroll-images img');
+                    if (images[num - 1]) {
+                        images[num - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 100);
+            }
         }
 
         function closeLightbox() {
             document.getElementById('igLightbox').classList.remove('active');
-        }
-
-        function updateLightbox() {
-            const img = document.getElementById('lightboxImg');
-            img.style.opacity = '0.5';
-            img.src = 'galeria/' + currentImage + '.jpg';
-            img.onload = function() { img.style.opacity = '1'; };
-            document.getElementById('lightboxCounter').textContent = currentImage;
+            document.body.style.overflow = '';
         }
 
         function prevImage() {
             currentImage = currentImage > 1 ? currentImage - 1 : totalImages;
-            updateLightbox();
+            document.getElementById('lightboxImg').src = 'galeria/' + currentImage + '.jpg';
+            document.getElementById('lightboxCounter').textContent = currentImage;
         }
 
         function nextImage() {
             currentImage = currentImage < totalImages ? currentImage + 1 : 1;
-            updateLightbox();
+            document.getElementById('lightboxImg').src = 'galeria/' + currentImage + '.jpg';
+            document.getElementById('lightboxCounter').textContent = currentImage;
         }
 
-        // Keyboard navigation for lightbox
+        // Keyboard navigation
         document.addEventListener('keydown', function(e) {
             if (document.getElementById('igLightbox').classList.contains('active')) {
                 if (e.key === 'ArrowLeft') prevImage();
@@ -2201,51 +2224,6 @@
                 closeGallery();
             }
         });
-
-        // Touch/Swipe navigation for mobile
-        (function() {
-            const lightbox = document.getElementById('igLightbox');
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchEndX = 0;
-            let touchEndY = 0;
-            const minSwipeDistance = 50;
-
-            lightbox.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-
-            lightbox.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                touchEndY = e.changedTouches[0].screenY;
-                handleSwipe();
-            }, { passive: true });
-
-            function handleSwipe() {
-                const deltaX = touchEndX - touchStartX;
-                const deltaY = touchEndY - touchStartY;
-
-                // Solo procesar si el swipe horizontal es mayor que el vertical
-                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
-                    if (deltaX > 0) {
-                        prevImage(); // Swipe derecha = imagen anterior
-                    } else {
-                        nextImage(); // Swipe izquierda = imagen siguiente
-                    }
-                }
-            }
-
-            // Tap en la imagen para cerrar (excepto en botones)
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox || e.target.id === 'lightboxImg') {
-                    // Cerrar solo si el tap es en el área oscura
-                    if (e.target === lightbox) {
-                        closeLightbox();
-                    }
-                }
-            });
-        })();
 
         // Close gallery on click outside
         document.getElementById('igGalleryModal').addEventListener('click', function(e) {

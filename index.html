@@ -1125,6 +1125,7 @@
 
 
 
+
         /* ========== TOOLBAR FECHA/HORA Y PDF ========== */
         .toolbar {
             position: sticky;
@@ -1202,10 +1203,69 @@
             opacity: 0.7;
             cursor: wait;
         }
+
+        /* Marca de fecha de descarga para PDF */
+        .pdf-download-stamp {
+            display: none;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 15px 25px;
+            margin: 0;
+            border-bottom: 3px solid var(--accent);
+        }
+        .pdf-download-stamp.visible {
+            display: block !important;
+        }
+        .pdf-stamp-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .pdf-stamp-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pdf-stamp-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .pdf-stamp-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .pdf-stamp-subtitle {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+        .pdf-stamp-right {
+            text-align: right;
+        }
+        .pdf-stamp-date {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .pdf-stamp-time {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
         @media print {
             .toolbar { display: none !important; }
             .response-badge { display: none !important; }
             .ig-gallery-modal, .ig-lightbox, .modal-overlay { display: none !important; }
+            .pdf-download-stamp { display: none !important; }
         }
         @media (max-width: 768px) {
             .toolbar {
@@ -1231,6 +1291,14 @@
                 justify-content: center;
                 padding: 12px 16px;
                 font-size: 13px;
+            }
+            .pdf-stamp-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            .pdf-stamp-right {
+                text-align: center;
             }
         }
 
@@ -1549,6 +1617,25 @@
 </head>
 <body>
 
+    <!-- MARCA DE FECHA DE DESCARGA (visible solo en PDF) -->
+    <div class="pdf-download-stamp" id="pdfDownloadStamp">
+        <div class="pdf-stamp-content">
+            <div class="pdf-stamp-left">
+                <div class="pdf-stamp-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div>
+                    <div class="pdf-stamp-title">PRESUPUESTO DESCARGADO</div>
+                    <div class="pdf-stamp-subtitle">Documento generado desde generadores.ar</div>
+                </div>
+            </div>
+            <div class="pdf-stamp-right">
+                <div class="pdf-stamp-date" id="pdfStampDate"></div>
+                <div class="pdf-stamp-time" id="pdfStampTime"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- TOOLBAR FECHA/HORA Y PDF -->
     <div class="toolbar" id="mainToolbar">
         <div class="toolbar-datetime">
@@ -1562,6 +1649,23 @@
             </div>
         </div>
         <div class="toolbar-buttons">
+            <button onclick="downloadPDF()" class="toolbar-btn pdf" id="btnDownloadPDF">
+                <i class="fas fa-file-pdf"></i>
+                Descargar Presupuesto
+            </button>
+            <a href="GA8000.pdf" download class="toolbar-btn ficha">
+                <i class="fas fa-file-alt"></i>
+                Ficha Tecnica
+            </a>
+            <button onclick="window.print()" class="toolbar-btn print">
+                <i class="fas fa-print"></i>
+                Imprimir
+            </button>
+        </div>
+    </div>
+
+
+            <div class="toolbar-buttons">
             <button onclick="downloadPDF()" class="toolbar-btn pdf" id="btnDownloadPDF">
                 <i class="fas fa-file-pdf"></i>
                 Descargar Presupuesto
@@ -2385,6 +2489,7 @@
     </script>
 
     
+    
     <!-- html2pdf Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
@@ -2408,24 +2513,32 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
             btn.disabled = true;
 
-            // Ocultar elementos que no queremos en el PDF
+            // Obtener fecha y hora actual para el stamp
+            const now = new Date();
+            const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('es-AR', optionsDate);
+            const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            // Actualizar el stamp con fecha/hora de descarga
+            document.getElementById('pdfStampDate').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+            document.getElementById('pdfStampTime').textContent = timeStr + ' hs';
+
+            // Ocultar toolbar y mostrar stamp
             const toolbar = document.getElementById('mainToolbar');
+            const stamp = document.getElementById('pdfDownloadStamp');
             const responseBadge = document.querySelector('.response-badge');
 
             toolbar.style.display = 'none';
+            stamp.classList.add('visible');
             if (responseBadge) responseBadge.style.display = 'none';
 
-            // Obtener el contenedor principal
-            const element = document.querySelector('.container');
-
             // Obtener fecha para el nombre del archivo
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('es-AR').replace(/\//g, '-');
+            const fileDateStr = now.toLocaleDateString('es-AR').replace(/\//g, '-');
 
             // Opciones para html2pdf
             const opt = {
-                margin: [5, 5, 5, 5],
-                filename: 'Presupuesto-GA8000-' + dateStr + '.pdf',
+                margin: [2, 2, 2, 2],
+                filename: 'Presupuesto-GA8000-' + fileDateStr + '.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
@@ -2441,21 +2554,26 @@
                 pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
-            // Generar PDF
-            html2pdf().set(opt).from(element).save().then(() => {
-                // Restaurar elementos
-                toolbar.style.display = '';
-                if (responseBadge) responseBadge.style.display = '';
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }).catch((error) => {
-                console.error('Error generando PDF:', error);
-                toolbar.style.display = '';
-                if (responseBadge) responseBadge.style.display = '';
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                alert('Error al generar el PDF. Por favor, intente de nuevo.');
-            });
+            // Pequeno delay para que se renderice el stamp
+            setTimeout(() => {
+                // Generar PDF incluyendo el stamp
+                html2pdf().set(opt).from(document.body).save().then(() => {
+                    // Restaurar elementos
+                    toolbar.style.display = '';
+                    stamp.classList.remove('visible');
+                    if (responseBadge) responseBadge.style.display = '';
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch((error) => {
+                    console.error('Error generando PDF:', error);
+                    toolbar.style.display = '';
+                    stamp.classList.remove('visible');
+                    if (responseBadge) responseBadge.style.display = '';
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    alert('Error al generar el PDF. Por favor, intente de nuevo.');
+                });
+            }, 100);
         }
     </script>
 

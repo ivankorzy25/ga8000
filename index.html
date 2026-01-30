@@ -1124,6 +1124,7 @@
         .response-badge .time { font-size: 22px; font-weight: 700; }
 
 
+
         /* ========== TOOLBAR FECHA/HORA Y PDF ========== */
         .toolbar {
             position: sticky;
@@ -1180,6 +1181,14 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
         }
+        .toolbar-btn.ficha {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+        }
+        .toolbar-btn.ficha:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
         .toolbar-btn.print {
             background: white;
             color: var(--primary);
@@ -1189,9 +1198,14 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
+        .toolbar-btn:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
         @media print {
             .toolbar { display: none !important; }
             .response-badge { display: none !important; }
+            .ig-gallery-modal, .ig-lightbox, .modal-overlay { display: none !important; }
         }
         @media (max-width: 768px) {
             .toolbar {
@@ -1209,9 +1223,11 @@
             }
             .toolbar-buttons {
                 width: 100%;
+                flex-wrap: wrap;
             }
             .toolbar-btn {
                 flex: 1;
+                min-width: 140px;
                 justify-content: center;
                 padding: 12px 16px;
                 font-size: 13px;
@@ -1534,7 +1550,7 @@
 <body>
 
     <!-- TOOLBAR FECHA/HORA Y PDF -->
-    <div class="toolbar">
+    <div class="toolbar" id="mainToolbar">
         <div class="toolbar-datetime">
             <div class="date-item">
                 <i class="fas fa-calendar-day"></i>
@@ -1546,6 +1562,23 @@
             </div>
         </div>
         <div class="toolbar-buttons">
+            <button onclick="downloadPDF()" class="toolbar-btn pdf" id="btnDownloadPDF">
+                <i class="fas fa-file-pdf"></i>
+                Descargar Presupuesto
+            </button>
+            <a href="GA8000.pdf" download class="toolbar-btn ficha">
+                <i class="fas fa-file-alt"></i>
+                Ficha Tecnica
+            </a>
+            <button onclick="window.print()" class="toolbar-btn print">
+                <i class="fas fa-print"></i>
+                Imprimir
+            </button>
+        </div>
+    </div>
+
+
+            <div class="toolbar-buttons">
             <a href="GA8000.pdf" download class="toolbar-btn pdf">
                 <i class="fas fa-file-pdf"></i>
                 Descargar PDF
@@ -2351,6 +2384,9 @@
         });
     </script>
 
+    
+    <!-- html2pdf Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         // Actualizar fecha y hora
         function updateDateTime() {
@@ -2364,6 +2400,63 @@
         }
         updateDateTime();
         setInterval(updateDateTime, 1000);
+
+        // Generar PDF del presupuesto
+        function downloadPDF() {
+            const btn = document.getElementById('btnDownloadPDF');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
+            btn.disabled = true;
+
+            // Ocultar elementos que no queremos en el PDF
+            const toolbar = document.getElementById('mainToolbar');
+            const responseBadge = document.querySelector('.response-badge');
+
+            toolbar.style.display = 'none';
+            if (responseBadge) responseBadge.style.display = 'none';
+
+            // Obtener el contenedor principal
+            const element = document.querySelector('.container');
+
+            // Obtener fecha para el nombre del archivo
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-AR').replace(/\//g, '-');
+
+            // Opciones para html2pdf
+            const opt = {
+                margin: [5, 5, 5, 5],
+                filename: 'Presupuesto-GA8000-' + dateStr + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    scrollY: 0
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            // Generar PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restaurar elementos
+                toolbar.style.display = '';
+                if (responseBadge) responseBadge.style.display = '';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch((error) => {
+                console.error('Error generando PDF:', error);
+                toolbar.style.display = '';
+                if (responseBadge) responseBadge.style.display = '';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                alert('Error al generar el PDF. Por favor, intente de nuevo.');
+            });
+        }
     </script>
 
 </body>

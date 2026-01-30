@@ -1123,6 +1123,101 @@
         }
         .response-badge .time { font-size: 22px; font-weight: 700; }
 
+
+        /* ========== TOOLBAR FECHA/HORA Y PDF ========== */
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .toolbar-datetime {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: white;
+        }
+        .toolbar-datetime .date-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .toolbar-datetime .date-item i {
+            color: var(--accent);
+            font-size: 16px;
+        }
+        .toolbar-datetime .date-item span {
+            font-weight: 500;
+        }
+        .toolbar-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .toolbar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+        }
+        .toolbar-btn.pdf {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
+        .toolbar-btn.pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+        .toolbar-btn.print {
+            background: white;
+            color: var(--primary);
+        }
+        .toolbar-btn.print:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        @media print {
+            .toolbar { display: none !important; }
+            .response-badge { display: none !important; }
+        }
+        @media (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+            .toolbar-datetime {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            .toolbar-datetime .date-item {
+                font-size: 13px;
+            }
+            .toolbar-buttons {
+                width: 100%;
+            }
+            .toolbar-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+        }
+
         /* ========== RESPONSIVE DESIGN - OPTIMIZADO MOVIL ========== */
 
         @media (max-width: 992px) {
@@ -1437,6 +1532,31 @@
     </style>
 </head>
 <body>
+
+    <!-- TOOLBAR FECHA/HORA Y PDF -->
+    <div class="toolbar">
+        <div class="toolbar-datetime">
+            <div class="date-item">
+                <i class="fas fa-calendar-day"></i>
+                <span id="currentDate">Cargando fecha...</span>
+            </div>
+            <div class="date-item">
+                <i class="fas fa-clock"></i>
+                <span id="currentTime">Cargando hora...</span>
+            </div>
+        </div>
+        <div class="toolbar-buttons">
+            <a href="GA8000.pdf" download class="toolbar-btn pdf">
+                <i class="fas fa-file-pdf"></i>
+                Descargar PDF
+            </a>
+            <button onclick="window.print()" class="toolbar-btn print">
+                <i class="fas fa-print"></i>
+                Imprimir
+            </button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- HEADER -->
         <header class="header"><a href="https://generadores.ar" class="logo-link"><img src="logo-kor.png" alt="KOR Generadores" class="header-logo"></a>
@@ -2230,5 +2350,21 @@
             if (e.target === this) closeGallery();
         });
     </script>
+
+    <script>
+        // Actualizar fecha y hora
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('es-AR', options);
+            const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            document.getElementById('currentDate').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+            document.getElementById('currentTime').textContent = timeStr + ' hs';
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+
 </body>
 </html>

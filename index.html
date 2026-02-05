@@ -289,6 +289,57 @@
         }
         .btn-folleto:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(253, 108, 0, 0.4); }
 
+        .btn-infografia {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+        .btn-infografia:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4); }
+
+        /* ========== INFOGRAFIA MODAL ========== */
+        .infografia-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+        .infografia-modal.active { display: flex; flex-direction: column; }
+        .infografia-modal-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            color: white;
+        }
+        .infografia-modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .infografia-modal-body {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        .infografia-modal-body img {
+            max-width: 100%;
+            max-height: calc(100vh - 100px);
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
         /* ========== FOLLETO MODAL ========== */
         .folleto-modal {
             display: none;
@@ -1705,6 +1756,9 @@
                     <button class="btn btn-folleto" onclick="openFolleto()">
                         <i class="fas fa-book-open"></i> Ver Folleto Digital
                     </button>
+                    <button class="btn btn-infografia" onclick="openInfografia()">
+                        <i class="fas fa-image"></i> Ver Infografía
+                    </button>
                     <button class="btn btn-secondary" onclick="openModal()">
                         <i class="fas fa-info-circle"></i> Ver Todo
                     </button>
@@ -2520,8 +2574,43 @@
 
         // Cerrar con ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeFolleto();
+            if (e.key === 'Escape') {
+                closeFolleto();
+                closeInfografia();
+            }
         });
+    </script>
+
+    <!-- INFOGRAFIA MODAL -->
+    <div id="infografiaModal" class="infografia-modal">
+        <div class="infografia-modal-header">
+            <h3><i class="fas fa-image"></i> Infografía PRAMAC GA8000</h3>
+            <div class="folleto-modal-actions">
+                <a href="infografia-ga8000.png" target="_blank" class="folleto-btn" download>
+                    <i class="fas fa-download"></i> Descargar
+                </a>
+                <button class="folleto-btn close-btn" onclick="closeInfografia()">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+        <div class="infografia-modal-body">
+            <img src="infografia-ga8000.png" alt="Infografía PRAMAC GA8000">
+        </div>
+    </div>
+
+    <script>
+        function openInfografia() {
+            const modal = document.getElementById('infografiaModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfografia() {
+            const modal = document.getElementById('infografiaModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     </script>
 
 </body>

@@ -1656,12 +1656,32 @@
             .model-badge .power-label { font-size: 13px; letter-spacing: 3px; }
 
             /* ===== HERO MOVIL ===== */
-            .hero { grid-template-columns: 1fr; padding: 25px 20px; gap: 25px; }
+            .hero { grid-template-columns: 1fr; padding: 20px 15px; gap: 20px; }
             .ml-carousel { order: -1; }
-            .ml-main-image { aspect-ratio: 4/3; }
-            .ml-thumb { width: 50px; height: 50px; }
-            .ml-nav-btn { width: 36px; height: 36px; font-size: 12px; }
-            .ml-zoom-hint { display: none; }
+            .ml-main-image { min-height: 280px; padding: 15px; }
+            .ml-main-image img { max-height: 250px; }
+            .ml-nav-btn { width: 36px; height: 36px; font-size: 14px; }
+            .ml-dots { bottom: 10px; gap: 6px; }
+            .ml-dot { width: 8px; height: 8px; }
+
+            /* Video button mobile */
+            .video-btn-container { margin-bottom: 12px; }
+            .video-btn { padding: 10px 18px; font-size: 13px; gap: 8px; }
+            .video-btn i { font-size: 16px; }
+
+            /* Video modal mobile */
+            .video-modal-content { width: 95%; }
+            .video-modal-close { top: -45px; width: 36px; height: 36px; font-size: 18px; }
+
+            /* Lightbox mobile */
+            .ml-lightbox-header { padding: 12px 15px; }
+            .ml-lightbox-close { width: 36px; height: 36px; font-size: 16px; }
+            .ml-lightbox-image { max-width: 95%; max-height: 70vh; }
+            .ml-lightbox-nav { width: 40px; height: 40px; font-size: 16px; }
+            .ml-lightbox-nav.prev { left: 10px; }
+            .ml-lightbox-nav.next { right: 10px; }
+            .ml-lightbox-dots { bottom: 15px; gap: 6px; }
+            .ml-lightbox-dot { width: 8px; height: 8px; }
             .feature-item { padding: 16px 0; }
             .feature-icon { width: 52px; height: 52px; font-size: 22px; }
             .feature-text h4 { font-size: 16px; margin-bottom: 6px; }
@@ -1827,10 +1847,13 @@
             .brand-badge { font-size: 11px; padding: 6px 12px; }
             .model-badge .power { font-size: 48px; }
 
-            .hero { padding: 20px 15px; }
-            .ml-thumb { width: 45px; height: 45px; }
-            .ml-thumbnails { padding: 8px; gap: 6px; }
-            .feature-icon { width: 48px; height: 48px; font-size: 20px; }
+            .hero { padding: 15px 12px; gap: 15px; }
+            .ml-main-image { min-height: 220px; padding: 12px; }
+            .ml-main-image img { max-height: 196px; }
+            .ml-nav-btn { width: 32px; height: 32px; font-size: 12px; }
+            .video-btn { padding: 8px 14px; font-size: 12px; }
+            .video-btn i { font-size: 14px; }
+            .feature-icon { width: 44px; height: 44px; font-size: 18px; }
             .feature-text h4 { font-size: 15px; }
             .feature-text p { font-size: 13px; }
 

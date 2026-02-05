@@ -282,6 +282,13 @@
         }
         .btn-secondary:hover { background: var(--primary-light); transform: translateY(-2px); }
 
+        .btn-folleto {
+            background: linear-gradient(135deg, #fd6c00 0%, #ff8c33 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(253, 108, 0, 0.3);
+        }
+        .btn-folleto:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(253, 108, 0, 0.4); }
+
         /* ========== QUICK SPECS ========== */
         .quick-specs {
             background: var(--gray-50);
@@ -1639,6 +1646,9 @@
                 <div class="buttons-row">
                     <a href="GA8000.pdf" target="_blank" class="btn btn-primary">
                         <i class="fas fa-file-pdf"></i> Ficha Tecnica PDF
+                    </a>
+                    <a href="https://ivankorzy25.github.io/kor-generadores-folletos/ga8000.html" target="_blank" class="btn btn-folleto">
+                        <i class="fas fa-book-open"></i> Ver Folleto Digital
                     </a>
                     <button class="btn btn-secondary" onclick="openModal()">
                         <i class="fas fa-info-circle"></i> Ver Todo

@@ -1929,7 +1929,7 @@
         <!-- HERO -->
         <section class="hero">
             <div class="ml-carousel" id="mlCarousel">
-                <div class="ml-main-image" onclick="openLightbox()">
+                <div class="ml-main-image" onclick="openCarouselLightbox()">
                     <img id="mainImage" src="carousel/Gemini_Generated_Image_sinfondo.png" alt="PRAMAC GA8000">
                     <button class="ml-nav-btn prev" onclick="event.stopPropagation(); changeImage(-1)"><i class="fas fa-chevron-left"></i></button>
                     <button class="ml-nav-btn next" onclick="event.stopPropagation(); changeImage(1)"><i class="fas fa-chevron-right"></i></button>
@@ -2480,7 +2480,7 @@
     <div class="ml-lightbox" id="lightbox">
         <div class="ml-lightbox-header">
             <span class="ml-lightbox-counter"><span id="lbCounter">1</span> / <span id="lbTotal">8</span></span>
-            <button class="ml-lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+            <button class="ml-lightbox-close" onclick="closeCarouselLightbox()"><i class="fas fa-times"></i></button>
         </div>
         <img class="ml-lightbox-image" id="lbImage" src="" alt="PRAMAC GA8000">
         <button class="ml-lightbox-nav prev" onclick="changeLbImage(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -2549,23 +2549,23 @@
             updateImage();
         }
 
-        function openLightbox() {
+        function openCarouselLightbox() {
             lbImage.src = carouselImages[currentImg];
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function closeLightbox() {
+        function closeCarouselLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
         }
 
-        // Keyboard navigation
+        // Keyboard navigation for carousel
         document.addEventListener('keydown', (e) => {
             if (lightbox.classList.contains('active')) {
                 if (e.key === 'ArrowLeft') changeImage(-1);
                 if (e.key === 'ArrowRight') changeImage(1);
-                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'Escape') closeCarouselLightbox();
             }
         });
 

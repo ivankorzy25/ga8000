@@ -393,6 +393,31 @@
             50% { transform: translateY(-3px); }
         }
 
+        /* Audio button responsive */
+        @media (max-width: 768px) {
+            .audio-float-btn {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                padding: 10px;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                justify-content: center;
+            }
+            .audio-float-btn .audio-label,
+            .audio-float-btn .audio-new-badge {
+                display: none;
+            }
+            .audio-float-btn .audio-icon-wrapper {
+                width: 24px;
+                height: 24px;
+            }
+            .audio-float-btn .audio-icon-wrapper i {
+                font-size: 16px;
+            }
+        }
+
         /* ========== INFOGRAFIA MODAL ========== */
         .infografia-modal {
             display: none;

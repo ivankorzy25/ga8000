@@ -296,6 +296,103 @@
         }
         .btn-infografia:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4); }
 
+        /* ========== AUDIO BUTTON FLOTANTE ========== */
+        .audio-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 14px 22px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.4);
+            transition: all 0.3s ease;
+        }
+        .audio-float-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(5, 150, 105, 0.5);
+        }
+        .audio-float-btn.playing {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+        }
+        .audio-float-btn.playing:hover {
+            box-shadow: 0 12px 40px rgba(220, 38, 38, 0.5);
+        }
+        .audio-icon-wrapper {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .audio-icon-wrapper i {
+            font-size: 18px;
+            z-index: 2;
+        }
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            animation: pulse-beat 1.5s ease-out infinite;
+        }
+        .pulse-ring:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        @keyframes pulse-beat {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(2.2);
+                opacity: 0;
+            }
+        }
+        .audio-label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+        .audio-label small {
+            font-size: 9px;
+            opacity: 0.8;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .audio-label span {
+            font-size: 13px;
+        }
+        .audio-new-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #fbbf24;
+            color: #1a1a1a;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            animation: badge-bounce 2s ease infinite;
+        }
+        @keyframes badge-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
         /* ========== INFOGRAFIA MODAL ========== */
         .infografia-modal {
             display: none;
@@ -2614,6 +2711,53 @@
             modal.classList.remove('active');
             document.body.style.overflow = '';
         }
+    </script>
+
+    <!-- AUDIO FLOTANTE -->
+    <audio id="audioPlayer" src="audio-ga8000.m4a" preload="auto"></audio>
+
+    <button class="audio-float-btn" id="audioBtn" onclick="toggleAudio()">
+        <span class="audio-new-badge">NUEVO</span>
+        <div class="audio-icon-wrapper">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <i class="fas fa-headphones" id="audioIcon"></i>
+        </div>
+        <div class="audio-label">
+            <small>Escuchá el</small>
+            <span id="audioText">Audio Informativo</span>
+        </div>
+    </button>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioBtn = document.getElementById('audioBtn');
+        const audioIcon = document.getElementById('audioIcon');
+        const audioText = document.getElementById('audioText');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                audioBtn.classList.remove('playing');
+                audioIcon.className = 'fas fa-headphones';
+                audioText.textContent = 'Audio Informativo';
+                isPlaying = false;
+            } else {
+                audioPlayer.play();
+                audioBtn.classList.add('playing');
+                audioIcon.className = 'fas fa-pause';
+                audioText.textContent = 'Pausar Audio';
+                isPlaying = true;
+            }
+        }
+
+        audioPlayer.addEventListener('ended', function() {
+            audioBtn.classList.remove('playing');
+            audioIcon.className = 'fas fa-headphones';
+            audioText.textContent = 'Audio Informativo';
+            isPlaying = false;
+        });
     </script>
 
 </body>

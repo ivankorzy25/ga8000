@@ -289,6 +289,61 @@
         }
         .btn-folleto:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(253, 108, 0, 0.4); }
 
+        /* ========== FOLLETO MODAL ========== */
+        .folleto-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+        }
+        .folleto-modal.active { display: flex; flex-direction: column; }
+        .folleto-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #fd6c00 0%, #ff8c33 100%);
+            color: white;
+        }
+        .folleto-modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .folleto-modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .folleto-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        .folleto-btn:hover { background: rgba(255,255,255,0.3); }
+        .folleto-btn.close-btn { background: rgba(0,0,0,0.3); }
+        .folleto-btn.close-btn:hover { background: rgba(0,0,0,0.5); }
+        .folleto-modal-body {
+            flex: 1;
+            overflow: hidden;
+        }
+        .folleto-modal-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         /* ========== QUICK SPECS ========== */
         .quick-specs {
             background: var(--gray-50);
@@ -1647,9 +1702,9 @@
                     <a href="GA8000.pdf" target="_blank" class="btn btn-primary">
                         <i class="fas fa-file-pdf"></i> Ficha Tecnica PDF
                     </a>
-                    <a href="https://ivankorzy25.github.io/kor-generadores-folletos/ga8000.html" target="_blank" class="btn btn-folleto">
+                    <button class="btn btn-folleto" onclick="openFolleto()">
                         <i class="fas fa-book-open"></i> Ver Folleto Digital
-                    </a>
+                    </button>
                     <button class="btn btn-secondary" onclick="openModal()">
                         <i class="fas fa-info-circle"></i> Ver Todo
                     </button>
@@ -2426,6 +2481,47 @@
                 });
             }, 100);
         }
+    </script>
+
+    <!-- FOLLETO MODAL -->
+    <div id="folletoModal" class="folleto-modal">
+        <div class="folleto-modal-header">
+            <h3><i class="fas fa-book-open"></i> Folleto Digital PRAMAC GA8000</h3>
+            <div class="folleto-modal-actions">
+                <a href="https://ivankorzy25.github.io/kor-generadores-folletos/ga8000.html" target="_blank" class="folleto-btn">
+                    <i class="fas fa-external-link-alt"></i> Abrir en nueva pestaña
+                </a>
+                <button class="folleto-btn close-btn" onclick="closeFolleto()">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+        <div class="folleto-modal-body">
+            <iframe id="folletoIframe" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        function openFolleto() {
+            const modal = document.getElementById('folletoModal');
+            const iframe = document.getElementById('folletoIframe');
+            iframe.src = 'https://ivankorzy25.github.io/kor-generadores-folletos/ga8000.html';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFolleto() {
+            const modal = document.getElementById('folletoModal');
+            const iframe = document.getElementById('folletoIframe');
+            modal.classList.remove('active');
+            iframe.src = '';
+            document.body.style.overflow = '';
+        }
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeFolleto();
+        });
     </script>
 
 </body>
